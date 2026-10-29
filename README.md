@@ -1,4 +1,4 @@
-# minist
+# mnist-realtime-recognition
 
 实时手写数字识别：浏览器里用鼠标写一个 0–9 的数字，Flask 后端把画布图像转成 MNIST 风格的输入，交给微调过的 **ResNet18** 分类，弹窗返回预测结果与置信度。
 
@@ -94,7 +94,7 @@ pip install torch torchvision flask pillow numpy matplotlib tqdm
 ## 目录结构
 
 ```
-minist/
+mnist-realtime-recognition/
 ├── main.py                                    # Flask 入口：/ 与 /recognize，含推理预处理（`python main.py` 启动）
 ├── resnet18.pt                                # 整模型 pickle（torch.save(model)，约 43 MB）
 ├── mnist-weighted-ensemble-99-60-accuracy.ipynb  # 训练 + 保存模型的 notebook（含一次运行输出）
@@ -112,7 +112,7 @@ minist/
 ### 1. 直接启动 Web 服务（用仓库自带权重）
 
 ```bash
-cd minist
+cd mnist-realtime-recognition
 pip install torch torchvision flask pillow numpy
 python main.py
 # Flask 默认监听 http://127.0.0.1:5000
@@ -120,7 +120,7 @@ python main.py
 
 浏览器打开页面 → 在白色画板里写一个数字 → 点"识别" → 弹窗显示 `预测结果为X概率为Y`（概率 4 位小数）。"清除"按钮清空画布。
 
-> **CPU 机器直接能跑**：设备由 `torch.cuda.is_available()` 自动判断，`torch.load` 也带了 `map_location=device`，不再需要把 `.cuda()` 改掉。模型文件路径基于 `__file__` 解析（`minist/resnet18.pt`），换工作目录启动也能找到；`render_template('index.html')` 仍依赖 Flask 的模板目录约定。
+> **CPU 机器直接能跑**：设备由 `torch.cuda.is_available()` 自动判断，`torch.load` 也带了 `map_location=device`，不再需要把 `.cuda()` 改掉。模型文件路径基于 `__file__` 解析（`mnist-realtime-recognition/resnet18.pt`），换工作目录启动也能找到；`render_template('index.html')` 仍依赖 Flask 的模板目录约定。
 
 ### 2. 重新训练
 
